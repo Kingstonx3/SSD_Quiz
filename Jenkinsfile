@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                git url: 'https://github.com/Kingstonx3/SSD_Quiz.git', credentialsId: 'github_token'
+            }
+        }
+        
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
                 script {
@@ -10,7 +17,7 @@ pipeline {
                         -s './'
                         -f 'ALL'
                         --prettyPrint''', 
-                        odcInstallation: 'OWASP Dependency-Check'
+                        odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                     
                     dependencyCheckPublisher pattern: 'dependency-check-report.xml'
                 }
