@@ -11,12 +11,8 @@ pipeline {
 
         stage('Make Scripts Executable') {
             steps {
-                script {
-                    def deployScript = "${env.WORKSPACE}/jenkins/scripts/deploy.sh"
-                    def killScript = "${env.WORKSPACE}/jenkins/scripts/kill.sh"
-                    sh "if [ -f ${deployScript} ]; then chmod +x ${deployScript}; fi"
-                    sh "if [ -f ${killScript} ]; then chmod +x ${killScript}; fi"
-                }
+                sh 'if [ -f jenkins/scripts/deploy.sh ]; then chmod +x jenkins/scripts/deploy.sh; fi'
+                sh 'if [ -f jenkins/scripts/kill.sh ]; then chmod +x jenkins/scripts/kill.sh; fi'
             }
         }
 
