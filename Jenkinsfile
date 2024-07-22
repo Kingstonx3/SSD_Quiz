@@ -30,7 +30,7 @@ pipeline {
                 }
                 stage('Unit Test') {
                     steps {
-                        sh 'sh ./vendor/bin/phpunit --log-junit logs/unitreport.xml tests'
+                        sh './vendor/bin/phpunit --log-junit logs/unitreport.xml tests'
                     }
                     post {
                         always {
