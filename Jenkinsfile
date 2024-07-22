@@ -60,10 +60,9 @@ pipeline {
                 stage('Deploy') {
                     agent any
                     steps {
-                        sh 'sh ./jenkins/scripts/deploy.sh'
-                        sh 'docker ps' // Check running containers
+                        sh './jenkins/scripts/deploy.sh'
                         input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                        sh 'sh ./jenkins/scripts/kill.sh'
+                        sh './jenkins/scripts/kill.sh'
                     }
                 }
                 stage('Headless Browser Test') {
