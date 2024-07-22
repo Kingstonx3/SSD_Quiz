@@ -50,7 +50,7 @@ pipeline {
 
         stage('Checkout Maven Project') {
             steps {
-                git branch: 'master', url: 'https://github.com/Kingstonx3/vulnado.git'
+                git branch: 'master', url: 'https://github.com/ScaleSec/vulnado.git'
             }
         }
 
