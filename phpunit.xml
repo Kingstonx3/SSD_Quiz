@@ -11,4 +11,7 @@
 	<logging>
 		<log type="junit" target="logs/unitreport.xml" />
 	</logging>
+	<listeners>
+		<listener class="DetailedTestListener" file="tests/DetailedTestListener.php"/>
+	</listeners>
 </phpunit>
