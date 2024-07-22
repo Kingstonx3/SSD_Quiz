@@ -24,7 +24,7 @@ pipeline {
                 }
                 stage('Unit Test') {
                     steps {
-                        sh './vendor/bin/phpunit --log-junit logs/unitreport.xml -c tests/phpunit.xml tests'
+                        sh './vendor/bin/phpunit --configuration phpunit.xml --verbose'
                     }
                     post {
                         always {
