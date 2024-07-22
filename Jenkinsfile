@@ -9,11 +9,8 @@ pipeline {
             }
         }
 
-        stage('List Files and Make Scripts Executable') {
+        stage('Make Scripts Executable') {
             steps {
-                // List files to verify the existence of the scripts
-                sh 'ls -la jenkins/scripts'
-                // Change permissions of the scripts
                 sh 'chmod +x jenkins/scripts/deploy.sh'
                 sh 'chmod +x jenkins/scripts/kill.sh'
             }
@@ -63,9 +60,9 @@ pipeline {
                 stage('Deploy') {
                     agent any
                     steps {
-                        sh './jenkins/scripts/deploy.sh'
+                        sh 'sh ./jenkins/scripts/deploy.sh'
                         input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                        sh './jenkins/scripts/kill.sh'
+                        sh 'sh ./jenkins/scripts/kill.sh'
                     }
                 }
                 stage('Headless Browser Test') {
