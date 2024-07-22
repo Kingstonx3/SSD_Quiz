@@ -65,25 +65,13 @@ pipeline {
                 scannerHome = tool name: 'SonarQube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
             }
             steps {
-                script {
-                    if (isUnix()) {
-                        sh """
-                            ${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=OWASP \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
-                        """
-                    } else {
-                        bat """
-                            ${scannerHome}\\bin\\sonar-scanner.bat \
-                            -D"sonar.projectKey=OWASP" \
-                            -D"sonar.sources=." \
-                            -D"sonar.host.url=http://localhost:9000" \
-                            -D"sonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c"
-                        """
-                    }
-                }
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=OWASP \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://192.168.56.1:9000 \
+                    -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
+                """
             }
         }
     }
