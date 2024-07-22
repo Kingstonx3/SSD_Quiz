@@ -61,6 +61,7 @@ pipeline {
                     agent any
                     steps {
                         sh 'sh ./jenkins/scripts/deploy.sh'
+                        sh 'docker ps' // Check running containers
                         input message: 'Finished using the web site? (Click "Proceed" to continue)'
                         sh 'sh ./jenkins/scripts/kill.sh'
                     }
