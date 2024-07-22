@@ -16,8 +16,6 @@ pipeline {
             }
         }
 
-        // Rest of your stages here...
-
         stage('Build and Test') {
             agent {
                 docker {
