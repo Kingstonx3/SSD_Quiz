@@ -73,7 +73,7 @@ pipeline {
                     ${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=OWASP \
                     -Dsonar.sources=. \
-                    -Dsonar.exclusions=vendor/**,dependency-check-report.xml,dependency-check-junit.xml,dependency-check-report.html,dependency-check-jenkins.html,target/site/cpd.html \
+                    -Dsonar.exclusions=vendor/**,dependency-check-report.xml,dependency-check-junit.xml,dependency-check-report.html,dependency-check-jenkins.html,target/site/cpd.html,target/site/pmd.html \
                     -Dsonar.host.url=http://192.168.56.1:9000 \
                     -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
                 """
