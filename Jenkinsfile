@@ -28,7 +28,7 @@ pipeline {
                     }
                     post {
                         always {
-                            junit 'logs/unitreport.xml'
+                            junit allowEmptyResults: true, testResults: 'logs/unitreport.xml'
                         }
                     }
                 }
@@ -80,7 +80,7 @@ pipeline {
         always {
             // Archive the dependency check report and test results for later review
             archiveArtifacts artifacts: 'dependency-check-report.xml, logs/unitreport.xml', allowEmptyArchive: true
-            junit testResults: '**/target/surefire-reports/TEST-*.xml'
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
             recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: findBugs(pattern: '**/target/findbugsXml.xml')
