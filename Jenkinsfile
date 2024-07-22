@@ -9,6 +9,12 @@ pipeline {
             }
         }
 
+        stage('Adjust Permissions') {
+            steps {
+                sh 'chmod +x ./vendor/bin/phpunit'
+            }
+        }
+
         stage('Build and Test') {
             agent {
                 docker {
