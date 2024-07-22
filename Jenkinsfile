@@ -48,12 +48,6 @@ pipeline {
             }
         }
 
-        stage('Checkout Maven Project') {
-            steps {
-                git branch: 'master', url: 'https://github.com/ScaleSec/vulnado.git'
-            }
-        }
-
         stage('Build and Test Maven Project') {
             steps {
                 sh '/var/jenkins_home/apache-maven-3.9.8/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore'
@@ -65,6 +59,33 @@ pipeline {
                 sh '/var/jenkins_home/apache-maven-3.9.8/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs'
             }
         }
+
+        stage('SonarQube Analysis') {
+            environment {
+                scannerHome = tool name: 'SonarQube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+            }
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=OWASP \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
+                        """
+                    } else {
+                        bat """
+                            ${scannerHome}\\bin\\sonar-scanner.bat \
+                            -D"sonar.projectKey=OWASP" \
+                            -D"sonar.sources=." \
+                            -D"sonar.host.url=http://localhost:9000" \
+                            -D"sonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c"
+                        """
+                    }
+                }
+            }
+        }
     }
 
     post {
@@ -74,9 +95,10 @@ pipeline {
             junit testResults: '**/target/surefire-reports/TEST-*.xml'
             recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
             recordIssues enabledForFailure: true, tool: checkStyle()
-            recordIssues enabledForFailure: true, tool: spotBugs(pattern: '**/target/spotbugsXml.xml')
+            recordIssues enabledForFailure: true, tool: findBugs(pattern: '**/target/findbugsXml.xml')
             recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+            recordIssues enabledForFailure: true, tool: sonarQube()
         }
         success {
             echo 'Pipeline completed successfully.'
