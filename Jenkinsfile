@@ -9,6 +9,15 @@ pipeline {
             }
         }
 
+        stage('Make Scripts Executable') {
+            steps {
+                sh 'chmod +x jenkins/scripts/deploy.sh'
+                sh 'chmod +x jenkins/scripts/kill.sh'
+            }
+        }
+
+        // Rest of your stages here...
+
         stage('Build and Test') {
             agent {
                 docker {
