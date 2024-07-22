@@ -24,7 +24,7 @@ pipeline {
                 }
                 stage('Unit Test') {
                     steps {
-                        sh './vendor/bin/phpunit --configuration phpunit.xml --log-junit logs/unitreport.xml --verbose'
+                        sh './vendor/bin/phpunit --configuration phpunit.xml --verbose'
                     }
                     post {
                         always {
@@ -51,11 +51,6 @@ pipeline {
         stage('Build and Test Maven Project') {
             steps {
                 sh '/var/jenkins_home/apache-maven-3.9.8/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore'
-            }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
-                }
             }
         }
 
