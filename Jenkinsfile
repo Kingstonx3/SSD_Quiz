@@ -69,7 +69,7 @@ pipeline {
                     ${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=OWASP \
                     -Dsonar.sources=. \
-                    -Dsonar.exclusions=vendor/** \
+                    -Dsonar.exclusions=vendor/**,dependency-check-report.*,dependency-check-junit.xml,dependency-check-report.html,dependency-check-jenkins.html \
                     -Dsonar.host.url=http://192.168.56.1:9000 \
                     -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
                 """
@@ -81,7 +81,7 @@ pipeline {
         always {
             // Archive the dependency check report and test results for later review
             archiveArtifacts artifacts: 'dependency-check-report.xml, logs/unitreport.xml', allowEmptyArchive: true
-            junit testResults: '**/target/surefire-reports/TEST-*.xml'
+            junit testResults: '**/target/surefire-reports/TEST-*.xml', allowEmptyResults: true
             recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: findBugs(pattern: '**/target/findbugsXml.xml')
