@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  jenkins:
+    build: .
+    container_name: jenkins-blueocean
+    restart: on-failure
+    networks:
+      - jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      JAVA_OPTS: "-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true"
+    entrypoint: >
+      /bin/bash -c "
+      git config --global user.name 'Kingstonx3' &&
+      git config --global user.email 'kingstonx333333@hotmail.com' &&
+      /usr/local/bin/jenkins.sh
+      "
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    networks:
+      - jenkins
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+networks:
+  jenkins:
+
+volumes:
+  jenkins-data:
+  jenkins-docker-certs:
