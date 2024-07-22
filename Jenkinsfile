@@ -24,11 +24,11 @@ pipeline {
                 }
                 stage('Unit Test') {
                     steps {
-                        sh './vendor/bin/phpunit --configuration phpunit.xml --verbose'
+                        sh './vendor/bin/phpunit --log-junit logs/unitreport.xml -c tests/phpunit.xml tests'
                     }
                     post {
                         always {
-                            junit allowEmptyResults: true, testResults: 'logs/unitreport.xml'
+                            junit 'logs/unitreport.xml'
                         }
                     }
                 }
@@ -69,6 +69,7 @@ pipeline {
                     ${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=OWASP \
                     -Dsonar.sources=. \
+                    -Dsonar.exclusions=vendor/** \
                     -Dsonar.host.url=http://192.168.56.1:9000 \
                     -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
                 """
@@ -80,7 +81,7 @@ pipeline {
         always {
             // Archive the dependency check report and test results for later review
             archiveArtifacts artifacts: 'dependency-check-report.xml, logs/unitreport.xml', allowEmptyArchive: true
-            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
+            junit testResults: '**/target/surefire-reports/TEST-*.xml'
             recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: findBugs(pattern: '**/target/findbugsXml.xml')
