@@ -6,6 +6,6 @@
     "\\src",
     "\\tests"
   ],
-  "SelectedNode": "\\public\\search.php",
+  "SelectedNode": "\\tests\\ValidatorTest.php",
   "PreviewInSolutionExplorer": false
 }
