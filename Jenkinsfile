@@ -9,10 +9,13 @@ pipeline {
             }
         }
 
-        stage('Make Scripts Executable') {
+        stage('List Files and Make Scripts Executable') {
             steps {
-                sh 'if [ -f jenkins/scripts/deploy.sh ]; then chmod +x jenkins/scripts/deploy.sh; fi'
-                sh 'if [ -f jenkins/scripts/kill.sh ]; then chmod +x jenkins/scripts/kill.sh; fi'
+                // List files to verify the existence of the scripts
+                sh 'ls -la jenkins/scripts'
+                // Change permissions of the scripts
+                sh 'chmod +x jenkins/scripts/deploy.sh'
+                sh 'chmod +x jenkins/scripts/kill.sh'
             }
         }
 
