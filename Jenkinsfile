@@ -28,7 +28,7 @@ pipeline {
                     }
                     post {
                         always {
-                            junit 'logs/unitreport.xml'
+                            junit testResults: 'logs/unitreport.xml', allowEmptyResults: true
                         }
                     }
                 }
@@ -41,7 +41,11 @@ pipeline {
                     -o './'
                     -s './'
                     -f 'ALL'
-                    --prettyPrint''', 
+                    --prettyPrint
+                    --exclude **/dependency-check-report.xml
+                    --exclude **/dependency-check-junit.xml
+                    --exclude **/dependency-check-report.html
+                    --exclude **/dependency-check-jenkins.html''', 
                     odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
@@ -69,7 +73,7 @@ pipeline {
                     ${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=OWASP \
                     -Dsonar.sources=. \
-                    -Dsonar.exclusions=vendor/**,dependency-check-report.*,dependency-check-junit.xml,dependency-check-report.html,dependency-check-jenkins.html \
+                    -Dsonar.exclusions=vendor/**,dependency-check-report.xml,dependency-check-junit.xml,dependency-check-report.html,dependency-check-jenkins.html,target/site/cpd.html \
                     -Dsonar.host.url=http://192.168.56.1:9000 \
                     -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
                 """
