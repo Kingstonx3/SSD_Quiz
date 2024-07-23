@@ -1,0 +1,662 @@
+Started by user Tan Jing Yuan
+Obtained Jenkinsfile from git https://github.com/Kingstonx3/SSD_Quiz.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/Pipeline test
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git
+using credential github_token
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Pipeline test/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Kingstonx3/SSD_Quiz.git # timeout=10
+Fetching upstream changes from https://github.com/Kingstonx3/SSD_Quiz.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/Kingstonx3/SSD_Quiz.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision adb9624146d687e73df1251cf53a93687a5a860c (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f adb9624146d687e73df1251cf53a93687a5a860c # timeout=10
+Commit message: "test"
+ > git rev-list --no-walk adb9624146d687e73df1251cf53a93687a5a860c # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: git
+using credential github_token
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Pipeline test/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Kingstonx3/SSD_Quiz.git # timeout=10
+Fetching upstream changes from https://github.com/Kingstonx3/SSD_Quiz.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/Kingstonx3/SSD_Quiz.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision adb9624146d687e73df1251cf53a93687a5a860c (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f adb9624146d687e73df1251cf53a93687a5a860c # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master adb9624146d687e73df1251cf53a93687a5a860c # timeout=10
+Commit message: "test"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build and Test PHP)
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/Pipeline test@2
+[Pipeline] {
+[Pipeline] checkout
+The recommended git tool is: git
+using credential github_token
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Pipeline test@2/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Kingstonx3/SSD_Quiz.git # timeout=10
+Fetching upstream changes from https://github.com/Kingstonx3/SSD_Quiz.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/Kingstonx3/SSD_Quiz.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision adb9624146d687e73df1251cf53a93687a5a860c (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f adb9624146d687e73df1251cf53a93687a5a860c # timeout=10
+Commit message: "test"
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . composer:latest
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+Jenkins seems to be running inside container d126eb912f14e001ca4c1c127a443ab456a4e4af37102ff2335325d06c1963fe
+$ docker run -t -d -u 1000:1000 -v /var/run/docker.sock:/var/run/docker.sock -w "/var/jenkins_home/workspace/Pipeline test@2" --volumes-from d126eb912f14e001ca4c1c127a443ab456a4e4af37102ff2335325d06c1963fe -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** composer:latest cat
+$ docker top 0d95bdf3f5f730fe217121b30a87bd3c59890a11a57d33ae200a082c8d1ed72d -eo pid,comm
+ERROR: The container started but didn't run the expected command. Please double check your ENTRYPOINT does execute the command passed as docker run argument, as required by official docker images (see https://github.com/docker-library/official-images#consistency for entrypoint consistency requirements).
+Alternatively you can force image entrypoint to be disabled by adding option `--entrypoint=''`.
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] sh
++ composer install
+Installing dependencies from lock file (including require-dev)
+Verifying lock file contents can be installed on current platform.
+Nothing to install, update or remove
+Generating autoload files
+28 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+> chmod +x vendor/bin/phpunit
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Unit Test)
+[Pipeline] sh
++ ./vendor/bin/phpunit --configuration phpunit.xml --verbose
+PHPUnit 9.6.20 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.9
+Configuration: phpunit.xml
+Warning:       Your XML configuration validates against a deprecated schema.
+Suggestion:    Migrate your XML configuration using "--migrate-configuration"!
+
+Starting test 'testIsXSS'
+Finished test 'testIsXSS' in 0.002397 seconds
+.Starting test 'testIsSQLInjection'
+Finished test 'testIsSQLInjection' in 0.000048 seconds
+.                                                                  2 / 2 (100%)
+
+Time: 00:00.014, Memory: 6.00 MB
+
+OK (2 tests, 4 assertions)
+Post stage
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+$ docker stop --time=1 0d95bdf3f5f730fe217121b30a87bd3c59890a11a57d33ae200a082c8d1ed72d
+$ docker rm -f --volumes 0d95bdf3f5f730fe217121b30a87bd3c59890a11a57d33ae200a082c8d1ed72d
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (OWASP Dependency-Check Vulnerabilities)
+[Pipeline] dependencyCheck
+[INFO] Checking for updates
+[INFO] Skipping the NVD API Update as it was completed within the last 240 minutes
+[INFO] Skipping Known Exploited Vulnerabilities update check since last check was within 24 hours.
+[INFO] Check for updates complete (661 ms)
+[INFO] 
+
+Dependency-Check is an open source tool performing a best effort analysis of 3rd party dependencies; false positives and false negatives may exist in the analysis performed by the tool. Use of the tool and the reporting provided constitutes acceptance for use in an AS IS condition, and there are NO warranties, implied or otherwise, with regard to the analysis or its use. Any use of the tool and the reporting provided is at the user's risk. In no event shall the copyright holder or OWASP be held liable for any damages whatsoever arising out of or in connection with the use of this tool, the analysis performed, or the resulting report.
+
+
+   About ODC: https://jeremylong.github.io/DependencyCheck/general/internals.html
+   False Positives: https://jeremylong.github.io/DependencyCheck/general/suppression.html
+
+💖 Sponsor: https://github.com/sponsors/jeremylong
+
+
+[INFO] Analysis Started
+[INFO] Finished Archive Analyzer (0 seconds)
+[INFO] Finished File Name Analyzer (0 seconds)
+[INFO] Finished Jar Analyzer (0 seconds)
+[INFO] Finished Central Analyzer (0 seconds)
+[INFO] Finished Dependency Merging Analyzer (0 seconds)
+[INFO] Finished Hint Analyzer (0 seconds)
+[INFO] Finished Version Filter Analyzer (0 seconds)
+[INFO] Created CPE Index (2 seconds)
+[INFO] Finished CPE Analyzer (3 seconds)
+[INFO] Finished False Positive Analyzer (0 seconds)
+[INFO] Finished NVD CVE Analyzer (0 seconds)
+[INFO] Finished RetireJS Analyzer (0 seconds)
+[INFO] Finished Sonatype OSS Index Analyzer (0 seconds)
+[INFO] Finished Vulnerability Suppression Analyzer (0 seconds)
+[INFO] Finished Known Exploited Vulnerability Analyzer (0 seconds)
+[INFO] Finished Dependency Bundling Analyzer (0 seconds)
+[INFO] Finished Unused Suppression Rule Analyzer (0 seconds)
+[INFO] Analysis Complete (5 seconds)
+[INFO] Writing XML report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-report.xml
+[INFO] Writing HTML report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-report.html
+[INFO] Writing JSON report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-report.json
+[INFO] Writing CSV report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-report.csv
+[INFO] Writing SARIF report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-report.sarif
+[INFO] Writing JENKINS report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-jenkins.html
+[INFO] Writing JUNIT report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-junit.xml
+[INFO] Writing GITLAB report to: /var/jenkins_home/workspace/Pipeline test/./dependency-check-gitlab.json
+[Pipeline] dependencyCheckPublisher
+Collecting Dependency-Check artifact
+Parsing file /var/jenkins_home/workspace/Pipeline test/dependency-check-report.xml
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build and Test Maven Project)
+[Pipeline] sh
++ /var/jenkins_home/apache-maven-3.9.8/bin/mvn --batch-mode -V -U -e clean verify -Dsurefire.useFile=false -Dmaven.test.failure.ignore
+Apache Maven 3.9.8 (36645f6c9b5079805ea5009217e36f2cffd34256)
+Maven home: /var/jenkins_home/apache-maven-3.9.8
+Java version: 17.0.11, vendor: Eclipse Adoptium, runtime: /opt/java/openjdk
+Default locale: en, platform encoding: UTF-8
+OS name: "linux", version: "5.15.153.1-microsoft-standard-wsl2", arch: "amd64", family: "unix"
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.example:vulnado >-------------------------
+[INFO] Building vulnado 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ vulnado ---
+[INFO] Deleting /var/jenkins_home/workspace/Pipeline test/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ vulnado ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/Pipeline test/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ vulnado ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ vulnado ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/Pipeline test/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ vulnado ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ vulnado ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ vulnado ---
+[WARNING] JAR will be empty - no content was marked for inclusion!
+[INFO] Building jar: /var/jenkins_home/workspace/Pipeline test/target/vulnado-1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- checkstyle:3.1.2:checkstyle (default) @ vulnado ---
+[INFO] 
+[INFO] --- pmd:3.15.0:pmd (default) @ vulnado ---
+[INFO] PMD version: 6.38.0
+[INFO] 
+[INFO] --- pmd:3.15.0:cpd (default) @ vulnado ---
+[INFO] PMD version: 6.38.0
+[INFO] 
+[INFO] --- spotbugs:4.7.3.0:spotbugs (default) @ vulnado ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.860 s
+[INFO] Finished at: 2024-07-22T23:33:46Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Analysis)
+[Pipeline] sh
++ /var/jenkins_home/apache-maven-3.9.8/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs
+Apache Maven 3.9.8 (36645f6c9b5079805ea5009217e36f2cffd34256)
+Maven home: /var/jenkins_home/apache-maven-3.9.8
+Java version: 17.0.11, vendor: Eclipse Adoptium, runtime: /opt/java/openjdk
+Default locale: en, platform encoding: UTF-8
+OS name: "linux", version: "5.15.153.1-microsoft-standard-wsl2", arch: "amd64", family: "unix"
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml (14 kB at 45 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml (21 kB at 64 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/findbugs-maven-plugin/maven-metadata.xml
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/findbugs-maven-plugin/maven-metadata.xml (1.1 kB at 101 kB/s)
+[INFO] 
+[INFO] ------------------------< com.example:vulnado >-------------------------
+[INFO] Building vulnado 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- checkstyle:3.1.2:checkstyle (default-cli) @ vulnado ---
+[INFO] 
+[INFO] --- pmd:3.15.0:pmd (default-cli) @ vulnado ---
+[INFO] PMD version: 6.38.0
+[INFO] 
+[INFO] --- pmd:3.15.0:cpd (default-cli) @ vulnado ---
+[INFO] PMD version: 6.38.0
+[INFO] 
+[INFO] --- findbugs:3.0.5:findbugs (default-cli) @ vulnado ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.790 s
+[INFO] Finished at: 2024-07-22T23:33:52Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (SonarQube Analysis)
+[Pipeline] tool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ /var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQube/bin/sonar-scanner -Dsonar.projectKey=OWASP -Dsonar.sources=. -Dsonar.exclusions=vendor/**,dependency-check-report.xml,dependency-check-junit.xml,dependency-check-report.html,dependency-check-jenkins.html,target/site/cpd.html,target/site/pmd.html -Dsonar.host.url=http://192.168.56.1:9000 -Dsonar.token=sqp_bbb52e965297eb405cee5cfbab178c9a262d0c7c
+23:33:53.894 INFO  Scanner configuration file: /var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQube/conf/sonar-scanner.properties
+23:33:53.901 INFO  Project root configuration file: NONE
+23:33:53.931 INFO  SonarScanner CLI 6.1.0.4477
+23:33:53.934 INFO  Java 17.0.11 Eclipse Adoptium (64-bit)
+23:33:53.935 INFO  Linux 5.15.153.1-microsoft-standard-WSL2 amd64
+23:33:53.979 INFO  User cache: /var/jenkins_home/.sonar/cache
+23:33:54.725 INFO  JRE provisioning: os[linux], arch[x86_64]
+23:33:54.925 INFO  Communicating with SonarQube Server 10.6.0.92116
+23:33:55.359 INFO  Starting SonarScanner Engine...
+23:33:55.359 INFO  Java 17.0.11 Eclipse Adoptium (64-bit)
+23:33:56.459 INFO  Load global settings
+23:33:56.621 INFO  Load global settings (done) | time=162ms
+23:33:56.625 INFO  Server id: 147B411E-AZDcCLar_jyFQVmtf1RU
+23:33:56.638 INFO  Loading required plugins
+23:33:56.639 INFO  Load plugins index
+23:33:56.683 INFO  Load plugins index (done) | time=44ms
+23:33:56.684 INFO  Load/download plugins
+23:33:56.742 INFO  Load/download plugins (done) | time=60ms
+23:33:57.124 INFO  Process project properties
+23:33:57.131 INFO  Process project properties (done) | time=7ms
+23:33:57.145 INFO  Project key: OWASP
+23:33:57.146 INFO  Base dir: /var/jenkins_home/workspace/Pipeline test
+23:33:57.146 INFO  Working dir: /var/jenkins_home/workspace/Pipeline test/.scannerwork
+23:33:57.155 INFO  Load project settings for component key: 'OWASP'
+23:33:57.223 INFO  Load project settings for component key: 'OWASP' (done) | time=68ms
+23:33:57.259 INFO  Load quality profiles
+23:33:57.531 INFO  Load quality profiles (done) | time=272ms
+23:33:57.545 INFO  Auto-configuring with CI 'Jenkins'
+23:33:57.578 INFO  Load active rules
+23:34:06.163 INFO  Load active rules (done) | time=8585ms
+23:34:06.168 INFO  Load analysis cache
+23:34:06.192 INFO  Load analysis cache (4.3 kB) | time=24ms
+23:34:06.247 INFO  Preprocessing files...
+23:34:06.585 INFO  6 languages detected in 25 preprocessed files
+23:34:06.586 INFO  1357 files ignored because of inclusion/exclusion patterns
+23:34:06.587 INFO  0 files ignored because of scm ignore settings
+23:34:06.587 INFO  Loading plugins for detected languages
+23:34:06.588 INFO  Load/download plugins
+23:34:06.599 INFO  Load/download plugins (done) | time=12ms
+23:34:06.781 INFO  Load project repositories
+23:34:06.814 INFO  Load project repositories (done) | time=32ms
+23:34:06.841 INFO  Indexing files...
+23:34:06.842 INFO  Project configuration:
+23:34:06.842 INFO    Excluded sources: vendor/**, dependency-check-report.xml, dependency-check-junit.xml, dependency-check-report.html, dependency-check-jenkins.html, target/site/cpd.html, target/site/pmd.html
+23:34:06.903 INFO  25 files indexed
+23:34:06.905 INFO  Quality profile for css: Sonar way
+23:34:06.905 INFO  Quality profile for docker: Sonar way
+23:34:06.906 INFO  Quality profile for json: Sonar way
+23:34:06.906 INFO  Quality profile for php: Sonar way
+23:34:06.907 INFO  Quality profile for xml: Sonar way
+23:34:06.907 INFO  Quality profile for yaml: Sonar way
+23:34:06.907 INFO  ------------- Run sensors on module OWASP
+23:34:06.973 INFO  Load metrics repository
+23:34:07.008 INFO  Load metrics repository (done) | time=35ms
+23:34:08.036 INFO  Sensor HTML [web]
+23:34:08.099 INFO  Sensor HTML [web] (done) | time=63ms
+23:34:08.099 INFO  Sensor XML Sensor [xml]
+23:34:08.105 INFO  6 source files to be analyzed
+23:34:08.452 INFO  6/6 source files have been analyzed
+23:34:08.453 INFO  Sensor XML Sensor [xml] (done) | time=354ms
+23:34:08.454 INFO  Sensor JaCoCo XML Report Importer [jacoco]
+23:34:08.455 INFO  'sonar.coverage.jacoco.xmlReportPaths' is not defined. Using default locations: target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml,build/reports/jacoco/test/jacocoTestReport.xml
+23:34:08.455 INFO  No report imported, no coverage information will be imported by JaCoCo XML Report Importer
+23:34:08.456 INFO  Sensor JaCoCo XML Report Importer [jacoco] (done) | time=3ms
+23:34:08.456 INFO  Sensor PHP sensor [php]
+23:34:08.491 INFO  Starting PHP symbol indexer
+23:34:08.492 INFO  5 source files to be analyzed
+23:34:08.656 INFO  5/5 source files have been analyzed
+23:34:08.657 INFO  Cached information of global symbols will be used for 0 out of 5 files. Global symbols were recomputed for the remaining files.
+23:34:08.679 INFO  Starting PHP rules
+23:34:08.679 INFO  5 source files to be analyzed
+23:34:09.121 INFO  5/5 source files have been analyzed
+23:34:09.121 INFO  The PHP analyzer was able to leverage cached data from previous analyses for 0 out of 5 files. These files were not parsed.
+23:34:09.121 INFO  Sensor PHP sensor [php] (done) | time=665ms
+23:34:09.122 INFO  Sensor Analyzer for "php.ini" files [php]
+23:34:09.123 INFO  Sensor Analyzer for "php.ini" files [php] (done) | time=2ms
+23:34:09.123 INFO  Sensor PHPUnit report sensor [php]
+23:34:09.124 INFO  No PHPUnit tests reports provided (see 'sonar.php.tests.reportPath' property)
+23:34:09.124 INFO  No PHPUnit coverage reports provided (see 'sonar.php.coverage.reportPaths' property)
+23:34:09.125 WARN  PHPUnit test cases are detected. Make sure to specify test sources via `sonar.test` to get more precise analysis results.
+23:34:09.125 INFO  Sensor PHPUnit report sensor [php] (done) | time=3ms
+23:34:09.126 INFO  Sensor IaC CloudFormation Sensor [iac]
+23:34:09.275 WARN  Invalid character encountered in file /var/jenkins_home/workspace/Pipeline test/dependency-check-report.json at line 32378 for encoding UTF-8. Please fix file content or configure the encoding to be used using property 'sonar.sourceEncoding'.
+23:34:09.340 INFO  0 source files to be analyzed
+23:34:09.353 INFO  0/0 source files have been analyzed
+23:34:09.353 INFO  Sensor IaC CloudFormation Sensor [iac] (done) | time=227ms
+23:34:09.353 INFO  Sensor IaC Kubernetes Sensor [iac]
+23:34:09.442 INFO  0 source files to be analyzed
+23:34:09.451 INFO  0/0 source files have been analyzed
+23:34:09.452 INFO  Sensor IaC Kubernetes Sensor [iac] (done) | time=98ms
+23:34:09.452 INFO  Sensor IaC AzureResourceManager Sensor [iac]
+23:34:09.453 INFO  0 source files to be analyzed
+23:34:09.553 INFO  0/0 source files have been analyzed
+23:34:09.553 INFO  Sensor IaC AzureResourceManager Sensor [iac] (done) | time=103ms
+23:34:09.554 INFO  Sensor Java Config Sensor [iac]
+23:34:09.556 INFO  0 source files to be analyzed
+23:34:09.562 INFO  0/0 source files have been analyzed
+23:34:09.562 INFO  Sensor Java Config Sensor [iac] (done) | time=8ms
+23:34:09.563 INFO  Sensor JavaScript inside YAML analysis [javascript]
+23:34:09.569 INFO  No input files found for analysis
+23:34:09.569 INFO  Hit the cache for 0 out of 0
+23:34:09.571 INFO  Miss the cache for 0 out of 0
+23:34:09.571 INFO  Sensor JavaScript inside YAML analysis [javascript] (done) | time=9ms
+23:34:09.572 INFO  Sensor CSS Rules [javascript]
+23:34:11.783 INFO  Detected os: Linux arch: amd64 alpine: false. Platform: LINUX_X64
+23:34:11.855 INFO  Using embedded Node.js runtime
+23:34:11.856 INFO  Using Node.js executable: '/var/jenkins_home/.sonar/js/node-runtime/node'.
+23:34:14.372 INFO  Memory configuration: OS (7536 MB), Node.js (2096 MB).
+23:34:14.522 INFO  1 source file to be analyzed
+23:34:16.957 INFO  1/1 source file has been analyzed
+23:34:16.958 INFO  Hit the cache for 0 out of 0
+23:34:16.958 INFO  Miss the cache for 0 out of 0
+23:34:16.958 INFO  Sensor CSS Rules [javascript] (done) | time=7386ms
+23:34:16.958 INFO  Sensor CSS Metrics [javascript]
+23:34:16.975 INFO  Sensor CSS Metrics [javascript] (done) | time=17ms
+23:34:16.975 INFO  Sensor IaC Docker Sensor [iac]
+23:34:16.981 INFO  1 source file to be analyzed
+23:34:17.021 ERROR Cannot parse 'Dockerfile:2:1'
+23:34:17.022 INFO  1/1 source file has been analyzed
+23:34:17.022 INFO  Sensor IaC Docker Sensor [iac] (done) | time=46ms
+23:34:17.022 INFO  Sensor TextAndSecretsSensor [text]
+23:34:17.023 INFO  Available processors: 16
+23:34:17.023 INFO  Using 16 threads for analysis.
+23:34:17.664 INFO  The property "sonar.tests" is not set. To improve the analysis accuracy, we categorize a file as a test file if any of the following is true:
+  * The filename starts with "test"
+  * The filename contains "test." or "tests."
+  * Any directory in the file path is named: "doc", "docs", "test" or "tests"
+  * Any directory in the file path has a name ending in "test" or "tests"
+
+23:34:17.697 INFO  Using git CLI to retrieve untracked files
+23:34:17.962 INFO  Analyzing language associated files and files included via "sonar.text.inclusions" that are tracked by git
+23:34:17.979 INFO  12 source files to be analyzed
+23:34:18.021 INFO  12/12 source files have been analyzed
+23:34:18.025 INFO  Sensor TextAndSecretsSensor [text] (done) | time=1002ms
+23:34:18.031 INFO  ------------- Run sensors on project
+23:34:18.070 INFO  Sensor Zero Coverage Sensor
+23:34:18.087 INFO  Sensor Zero Coverage Sensor (done) | time=18ms
+23:34:18.095 INFO  SCM Publisher SCM provider for this project is: git
+23:34:18.096 INFO  SCM Publisher 4 source files to be analyzed
+23:34:18.188 INFO  SCM Publisher 0/4 source files have been analyzed (done) | time=90ms
+23:34:18.188 WARN  Missing blame information for the following files:
+23:34:18.188 WARN    * target/pmd/rulesets/maven-pmd-plugin-default.xml
+23:34:18.188 WARN    * target/cpd.xml
+23:34:18.188 WARN    * target/pmd.xml
+23:34:18.189 WARN    * logs/unitreport.xml
+23:34:18.189 WARN  This may lead to missing/broken features in SonarQube
+23:34:18.192 INFO  CPD Executor Calculating CPD for 5 files
+23:34:18.202 INFO  CPD Executor CPD calculation finished (done) | time=10ms
+23:34:18.208 INFO  SCM revision ID 'adb9624146d687e73df1251cf53a93687a5a860c'
+23:34:18.285 INFO  Analysis report generated in 73ms, dir size=232.7 kB
+23:34:18.340 INFO  Analysis report compressed in 54ms, zip size=45.2 kB
+23:34:18.390 INFO  Analysis report uploaded in 49ms
+23:34:18.391 INFO  ANALYSIS SUCCESSFUL, you can find the results at: http://192.168.56.1:9000/dashboard?id=OWASP
+23:34:18.391 INFO  Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+23:34:18.392 INFO  More about the report processing at http://192.168.56.1:9000/api/ce/task?id=d1ccfcf0-2bca-4798-9c87-a88ff06e658c
+23:34:19.384 INFO  Analysis total time: 22.575 s
+23:34:19.394 INFO  SonarScanner Engine completed successfully
+23:34:19.744 INFO  EXECUTION SUCCESS
+23:34:19.746 INFO  Total time: 25.855s
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+[Pipeline] junit
+Recording test results
+No test report files were found. Configuration error?
+None of the test reports contained any result
+[Checks API] No suitable checks publisher found.
+[Pipeline] recordIssues
+[Maven] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[Maven] -> found 3 issues (skipped 0 duplicates)
+[Maven] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[Maven] Skipping post processing
+[Maven] No filter has been set, publishing all 3 issues
+[Maven] Repository miner is not configured, skipping repository mining
+[Maven] Successfully parsed console log
+[Maven] -> found 3 issues (skipped 0 duplicates)
+[Maven] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[Maven] Skipping post processing
+[Maven] No filter has been set, publishing all 3 issues
+[Maven] Repository miner is not configured, skipping repository mining
+[Maven] Reference build recorder is not configured
+[Maven] No valid reference build found
+[Maven] All reported issues will be considered outstanding
+[Maven] No quality gates have been set - skipping
+[Maven] Health report is disabled - skipping
+[Maven] Created analysis result for 3 issues (found 0 new issues, fixed 0 issues)
+[Maven] Attaching ResultAction with ID 'maven-warnings' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[Java Compiler] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[Java Compiler] Successfully parsed console log
+[Java Compiler] -> found 0 issues (skipped 0 duplicates)
+[Java Compiler] Skipping post processing
+[Java Compiler] No filter has been set, publishing all 0 issues
+[Java Compiler] Repository miner is not configured, skipping repository mining
+[Java Compiler] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[Java Compiler] Successfully parsed console log
+[Java Compiler] -> found 0 issues (skipped 0 duplicates)
+[Java Compiler] Skipping post processing
+[Java Compiler] No filter has been set, publishing all 0 issues
+[Java Compiler] Repository miner is not configured, skipping repository mining
+[Java Compiler] Reference build recorder is not configured
+[Java Compiler] No valid reference build found
+[Java Compiler] All reported issues will be considered outstanding
+[Java Compiler] No quality gates have been set - skipping
+[Java Compiler] Health report is disabled - skipping
+[Java Compiler] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[Java Compiler] Attaching ResultAction with ID 'java' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[JavaDoc] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[JavaDoc] -> found 0 issues (skipped 0 duplicates)
+[JavaDoc] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[JavaDoc] Skipping post processing
+[JavaDoc] No filter has been set, publishing all 0 issues
+[JavaDoc] Repository miner is not configured, skipping repository mining
+[JavaDoc] Successfully parsed console log
+[JavaDoc] -> found 0 issues (skipped 0 duplicates)
+[JavaDoc] Parsing console log (workspace: '/var/jenkins_home/workspace/Pipeline test')
+[JavaDoc] Skipping post processing
+[JavaDoc] No filter has been set, publishing all 0 issues
+[JavaDoc] Repository miner is not configured, skipping repository mining
+[JavaDoc] Reference build recorder is not configured
+[JavaDoc] No valid reference build found
+[JavaDoc] All reported issues will be considered outstanding
+[JavaDoc] No quality gates have been set - skipping
+[JavaDoc] Health report is disabled - skipping
+[JavaDoc] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[JavaDoc] Attaching ResultAction with ID 'javadoc-warnings' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[Pipeline] recordIssues
+[CheckStyle] Using default pattern '**/checkstyle-result.xml' since user defined pattern is not set
+[CheckStyle] [-ERROR-] Errors during parsing
+[CheckStyle] [-ERROR-] No files found for pattern '**/checkstyle-result.xml'. Configuration error?
+[CheckStyle] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/checkstyle-result.xml'
+[CheckStyle] Traversing of symbolic links: enabled
+[CheckStyle] Skipping post processing
+[CheckStyle] No filter has been set, publishing all 0 issues
+[CheckStyle] Repository miner is not configured, skipping repository mining
+[CheckStyle] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/checkstyle-result.xml'
+[CheckStyle] Traversing of symbolic links: enabled
+[CheckStyle] Skipping post processing
+[CheckStyle] No filter has been set, publishing all 0 issues
+[CheckStyle] Repository miner is not configured, skipping repository mining
+[CheckStyle] [-ERROR-] Errors during parsing
+[CheckStyle] [-ERROR-] No files found for pattern '**/checkstyle-result.xml'. Configuration error?
+[CheckStyle] Reference build recorder is not configured
+[CheckStyle] No valid reference build found
+[CheckStyle] All reported issues will be considered outstanding
+[CheckStyle] No quality gates have been set - skipping
+[CheckStyle] Health report is disabled - skipping
+[CheckStyle] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[CheckStyle] Attaching ResultAction with ID 'checkstyle' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[Pipeline] recordIssues
+[FindBugs] [-ERROR-] Errors during parsing
+[FindBugs] [-ERROR-] No files found for pattern '**/target/findbugsXml.xml'. Configuration error?
+[FindBugs] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/target/findbugsXml.xml'
+[FindBugs] Traversing of symbolic links: enabled
+[FindBugs] Skipping post processing
+[FindBugs] No filter has been set, publishing all 0 issues
+[FindBugs] Repository miner is not configured, skipping repository mining
+[FindBugs] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/target/findbugsXml.xml'
+[FindBugs] Traversing of symbolic links: enabled
+[FindBugs] Skipping post processing
+[FindBugs] No filter has been set, publishing all 0 issues
+[FindBugs] Repository miner is not configured, skipping repository mining
+[FindBugs] [-ERROR-] Errors during parsing
+[FindBugs] [-ERROR-] No files found for pattern '**/target/findbugsXml.xml'. Configuration error?
+[FindBugs] Reference build recorder is not configured
+[FindBugs] No valid reference build found
+[FindBugs] All reported issues will be considered outstanding
+[FindBugs] No quality gates have been set - skipping
+[FindBugs] Health report is disabled - skipping
+[FindBugs] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[FindBugs] Attaching ResultAction with ID 'findbugs' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[Pipeline] recordIssues
+[CPD] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/target/cpd.xml'
+[CPD] Traversing of symbolic links: enabled
+[CPD] -> found 1 file
+[CPD] Successfully parsed file /var/jenkins_home/workspace/Pipeline test/target/cpd.xml
+[CPD] -> found 0 issues (skipped 0 duplicates)
+[CPD] Successfully processed file 'target/cpd.xml'
+[CPD] Skipping post processing
+[CPD] No filter has been set, publishing all 0 issues
+[CPD] Repository miner is not configured, skipping repository mining
+[CPD] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/target/cpd.xml'
+[CPD] Traversing of symbolic links: enabled
+[CPD] -> found 1 file
+[CPD] Successfully parsed file /var/jenkins_home/workspace/Pipeline test/target/cpd.xml
+[CPD] -> found 0 issues (skipped 0 duplicates)
+[CPD] Successfully processed file 'target/cpd.xml'
+[CPD] Skipping post processing
+[CPD] No filter has been set, publishing all 0 issues
+[CPD] Repository miner is not configured, skipping repository mining
+[CPD] Reference build recorder is not configured
+[CPD] No valid reference build found
+[CPD] All reported issues will be considered outstanding
+[CPD] No quality gates have been set - skipping
+[CPD] Health report is disabled - skipping
+[CPD] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[CPD] Attaching ResultAction with ID 'cpd' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[Pipeline] recordIssues
+[PMD] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/target/pmd.xml'
+[PMD] Traversing of symbolic links: enabled
+[PMD] -> found 1 file
+[PMD] Successfully parsed file /var/jenkins_home/workspace/Pipeline test/target/pmd.xml
+[PMD] -> found 0 issues (skipped 0 duplicates)
+[PMD] Successfully processed file 'target/pmd.xml'
+[PMD] Skipping post processing
+[PMD] No filter has been set, publishing all 0 issues
+[PMD] Repository miner is not configured, skipping repository mining
+[PMD] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/target/pmd.xml'
+[PMD] Traversing of symbolic links: enabled
+[PMD] -> found 1 file
+[PMD] Successfully parsed file /var/jenkins_home/workspace/Pipeline test/target/pmd.xml
+[PMD] -> found 0 issues (skipped 0 duplicates)
+[PMD] Successfully processed file 'target/pmd.xml'
+[PMD] Skipping post processing
+[PMD] No filter has been set, publishing all 0 issues
+[PMD] Repository miner is not configured, skipping repository mining
+[PMD] Reference build recorder is not configured
+[PMD] No valid reference build found
+[PMD] All reported issues will be considered outstanding
+[PMD] No quality gates have been set - skipping
+[PMD] Health report is disabled - skipping
+[PMD] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[PMD] Attaching ResultAction with ID 'pmd' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[Pipeline] recordIssues
+[SonarQube Issues] Using default pattern '**/sonar-report.json' since user defined pattern is not set
+[SonarQube Issues] [-ERROR-] Errors during parsing
+[SonarQube Issues] [-ERROR-] No files found for pattern '**/sonar-report.json'. Configuration error?
+[SonarQube Issues] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/sonar-report.json'
+[SonarQube Issues] Traversing of symbolic links: enabled
+[SonarQube Issues] Skipping post processing
+[SonarQube Issues] No filter has been set, publishing all 0 issues
+[SonarQube Issues] Repository miner is not configured, skipping repository mining
+[SonarQube Issues] Searching for all files in '/var/jenkins_home/workspace/Pipeline test' that match the pattern '**/sonar-report.json'
+[SonarQube Issues] Traversing of symbolic links: enabled
+[SonarQube Issues] Skipping post processing
+[SonarQube Issues] No filter has been set, publishing all 0 issues
+[SonarQube Issues] Repository miner is not configured, skipping repository mining
+[SonarQube Issues] [-ERROR-] Errors during parsing
+[SonarQube Issues] [-ERROR-] No files found for pattern '**/sonar-report.json'. Configuration error?
+[SonarQube Issues] Reference build recorder is not configured
+[SonarQube Issues] No valid reference build found
+[SonarQube Issues] All reported issues will be considered outstanding
+[SonarQube Issues] No quality gates have been set - skipping
+[SonarQube Issues] Health report is disabled - skipping
+[SonarQube Issues] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[SonarQube Issues] Attaching ResultAction with ID 'sonar' to build 'Pipeline test #48'.
+[Checks API] No suitable checks publisher found.
+[Pipeline] echo
+Pipeline completed successfully.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
