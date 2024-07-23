@@ -4,11 +4,11 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->get('/', function (Response $response) {
+$app->get('/', function (Request $request, Response $response) {
     $response->getBody()->write('
         <!DOCTYPE html>
         <html lang="en">
@@ -39,41 +39,9 @@ $app->post('/search', function (Request $request, Response $response) {
     $validator = new \App\Validator();
 
     if ($validator->isXSS($search_term)) {
-        $response->getBody()->write('
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Search Result</title>
-                <link rel="stylesheet" href="css/styles.css">
-            </head>
-            <body>
-                <div class="container">
-                    <p>Invalid input detected. Possible XSS attack.</p>
-                    <br><a href="/">Return to Home</a>
-                </div>
-            </body>
-            </html>
-        ');
+        return $response->withHeader('Location', '/')->withStatus(302);
     } elseif ($validator->isSQLInjection($search_term)) {
-        $response->getBody()->write('
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Search Result</title>
-                <link rel="stylesheet" href="css/styles.css">
-            </head>
-            <body>
-                <div class="container">
-                    <p>Invalid input detected. Possible SQL Injection.</p>
-                    <br><a href="/">Return to Home</a>
-                </div>
-            </body>
-            </html>
-        ');
+        return $response->withHeader('Location', '/')->withStatus(302);
     } else {
         $response->getBody()->write('
             <!DOCTYPE html>
